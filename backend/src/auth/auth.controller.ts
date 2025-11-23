@@ -1,20 +1,13 @@
 import { Controller, Post, Body } from '@nestjs/common';
-import { AuthControllerService } from './auth.service';
-import { CreateUserDto } from './CreateUserDto.dto';
+import { AuthService } from './auth.service';
+import type { RegisterResponse } from './RegisterResponse';
+import { RegisterDto } from './register.dto';
 @Controller('/api/auth/')
-export class AuthControllerController {
-  constructor(private readonly authService: AuthControllerService) {}
+export class AuthController {
+  constructor(private readonly authService: AuthService) {}
 
   @Post('register')
-  register(@Body() createUserDto: CreateUserDto): {
-    success: boolean;
-    message: string;
-    user: { email: string; name: string };
-  } {
-    return {
-      success: true,
-      message: 'User registered',
-      user: { email: createUserDto.email, name: createUserDto.name },
-    };
+  register(@Body() registerDto: RegisterDto): RegisterResponse {
+    return this.authService.register(registerDto);
   }
 }

@@ -1,3 +1,4 @@
+import { Transform } from 'class-transformer';
 import {
   IsEmail,
   IsNotEmpty,
@@ -5,8 +6,12 @@ import {
   IsStrongPassword,
 } from 'class-validator';
 
-export class CreateUserDto {
+export class RegisterDto {
   @IsEmail()
+  @IsNotEmpty()
+  @Transform(({ value }: { value: string }): string =>
+    value.toLowerCase().trim(),
+  )
   email: string;
 
   @IsNotEmpty()
